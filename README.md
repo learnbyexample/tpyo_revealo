@@ -4,7 +4,7 @@
 
 #### Why?
 
-* Saw couple typos while reading a fantasy book and wondered why weren't they caught
+* Saw couple of typos while reading a fantasy book and wondered why weren't they caught
 * Felt like a good mini-project to improve my Python and programming skills
 
 <br>
@@ -63,6 +63,18 @@ $ python3 tpyo_revealo.py
 $ cat 2017-12-19_16\:06\:06.121312/tpyo_words.log 
 tpyo: 1
 ```
+
+<br>
+
+#### Where to get word lists
+
+* this [stackoverflow Q&A](https://stackoverflow.com/questions/4456446/dictionary-text-file) might help
+* [aspell](http://app.aspell.net/create) looked good (mentioned in above link)
+    * American/British/Canadian/Australian spellings
+    * SCOWL size 95, Variants 3, Diacritic stripped gives 660+K words
+        * The script finished in less than 3 seconds for Oathbringer book(450+K words) against 660+K reference words, so performance not an issue
+    * Can be downloaded for both Windows/Unix
+    * See [scowl-readme](http://wordlist.aspell.net/scowl-readme/) for more details including usage and license
 
 <br>
 
