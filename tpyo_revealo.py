@@ -3,6 +3,7 @@
 import tempfile, zipfile
 import glob, os, re, sys
 import datetime
+import xml.etree.ElementTree as ET
 
 word_dir = r'ref_words'
 docm_dir = r'input_doc'
@@ -31,7 +32,7 @@ def tpyos(word_dir, docm_dir):
     """
     tpyo_words = dict()
     re_strip = re.compile(r'^[^a-zA-Z]*|[^a-zA-Z]*$')
-    re_valid_words = re.compile(r"^[a-zA-Z'-]+$")   # has to be improved, many words are missed
+    re_valid_words = re.compile(r'[a-zA-Z]')
     for doc_file in glob.glob(docm_dir + os.sep + '*'):
         if re.search(r'\.(epub|docx)$', doc_file) and os.path.isfile(doc_file):
             with zipfile.ZipFile(doc_file, 'r') as zp, tempfile.TemporaryDirectory() as td:
@@ -41,23 +42,26 @@ def tpyos(word_dir, docm_dir):
                 all_files.extend(glob.glob(td + rp + '*.*xml*', recursive=True))
 
                 for ip_file in all_files:
-                    with open(ip_file, 'r', encoding='UTF-8') as ip:
-                        for line in ip:
-                            for word in line.split():
-                                word = re_strip.sub('', word)
-                                word_l = word.lower()
+                    xml_root = ET.parse(ip_file).getroot()
+                    all_text = ET.tostringlist(xml_root, encoding='unicode', method='text')
 
-                                if re_valid_words.search(word_l) and word_l not in ref_words:
-                                    if word in tpyo_words:
-                                        tpyo_words[word] = tpyo_words[word] + 1
-                                    else:
-                                        tpyo_words[word] = 1
+                    for item in all_text:
+                        for word in re.split(r'[\s—]', item):
+                            word = re_strip.sub('', word)
+                            # convert to ascii single quotes and lowercase the string for ref_words comparison
+                            word_l = word.translate({0x2019:0x27}).lower()
+
+                            if re_valid_words.search(word_l) and word_l not in ref_words:
+                                if word in tpyo_words:
+                                    tpyo_words[word] = tpyo_words[word] + 1
+                                else:
+                                    tpyo_words[word] = 1
     return tpyo_words
 
 
 tpyo_words = tpyos(word_dir, docm_dir)
 
-log_dir = str(datetime.datetime.now()).replace(' ', '_')
+log_dir = str(datetime.datetime.now()).translate({0x20:0x5f, 0x3a:0x5f})
 os.mkdir(log_dir)
 tpyo_log = log_dir + os.sep + r'tpyo_words.log'
 hyph_log = log_dir + os.sep + r'hyphenated_words.log'
