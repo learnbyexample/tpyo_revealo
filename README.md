@@ -49,19 +49,33 @@ $ cp /usr/share/dict/words ref_words/words.txt
 $ # this will create a log directory using current time as directory name
 $ python3 tpyo_revealo.py
 
-$ # as of now, not using xml parser to get only relevant text
-$ # so, xml related words/tags would show up
-$ cat 2017-12-19_16\:04\:16.445426/tpyo_words.log 
-CJK: 3
-Serif: 4
+$ cat 2017-12-20_15_38_07.341621/hyphenated_words.log
+en-IN: 1
+full-fledged: 1
+$ cat 2017-12-20_15_38_07.341621/tpyo_words.log
+LibreOffice/5.2.0.4$Linux_X: 1
+LibreOffice_project/20m0$Build: 1
+rny: 1
+T12:10:00Z: 1
+T16:21:07Z: 1
 tpyo: 1
-xml: 8
+wordswithoutspace: 1
 
 $ # create ignore lists and run again
-$ printf 'CJK\nSerif\nxml\n' > ref_words/ignore.txt
+$ cat > ref_words/ignore.txt
+en-IN
+LibreOffice/5.2.0.4$Linux_X
+LibreOffice_project/20m0$Build
+T12:10:00Z
+T16:21:07Z
+$ echo 'full-fledged' > ref_words/hyphenated_words.txt
+
 $ python3 tpyo_revealo.py
-$ cat 2017-12-19_16\:06\:06.121312/tpyo_words.log 
+$ cat 2017-12-20_15_40_45.505735/hyphenated_words.log
+$ cat 2017-12-20_15_40_45.505735/tpyo_words.log
+rny: 1
 tpyo: 1
+wordswithoutspace: 1
 ```
 
 <br>
@@ -75,6 +89,15 @@ tpyo: 1
         * The script finished in less than 3 seconds for Oathbringer book(450+K words) against 660+K reference words, so performance not an issue
     * Can be downloaded for both Windows/Unix
     * See [scowl-readme](http://wordlist.aspell.net/scowl-readme/) for more details including usage and license
+
+<br>
+
+#### Wishlist
+
+* Better parsing for xhtml files. As of now xml extraction is used, so things like `T<span class="XXX">HOSE words` messes up things
+* Code organization - need to break up into different functions, etc
+* Features - repeated words, adverbs repeated in short space, etc
+* Look into NLTK
 
 <br>
 
