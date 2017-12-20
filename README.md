@@ -56,8 +56,8 @@ $ cat 2017-12-20_15_38_07.341621/tpyo_words.log
 LibreOffice/5.2.0.4$Linux_X: 1
 LibreOffice_project/20m0$Build: 1
 rny: 1
-T12:10:00Z: 1
-T16:21:07Z: 1
+samlpe: 1
+T15:37:31Z: 1
 tpyo: 1
 wordswithoutspace: 1
 
@@ -66,14 +66,14 @@ $ cat > ref_words/ignore.txt
 en-IN
 LibreOffice/5.2.0.4$Linux_X
 LibreOffice_project/20m0$Build
-T12:10:00Z
-T16:21:07Z
+T15:37:31Z
 $ echo 'full-fledged' > ref_words/hyphenated_words.txt
 
 $ python3 tpyo_revealo.py
 $ cat 2017-12-20_15_40_45.505735/hyphenated_words.log
 $ cat 2017-12-20_15_40_45.505735/tpyo_words.log
 rny: 1
+samlpe: 1
 tpyo: 1
 wordswithoutspace: 1
 ```
